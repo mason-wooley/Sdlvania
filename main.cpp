@@ -44,7 +44,7 @@ int main(int argc, char **args)
     bool running = true;
 
     // The rectangle defining the character position
-    SDL_Rect *rect;
+    SDL_Rect *rect = new SDL_Rect();
 
     rect->x = SCREEN_WIDTH / 2 - gCharacter->w / 2;
     rect->y = SCREEN_HEIGHT / 2 - gCharacter->h / 2;
