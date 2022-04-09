@@ -1,5 +1,2 @@
 # Build files
 *.exe
-
-# Dev environment
-/.vscode
