@@ -49,15 +49,18 @@ int main(int argc, char **args)
     rect->x = SCREEN_WIDTH / 2 - gCharacter->w / 2;
     rect->y = SCREEN_HEIGHT / 2 - gCharacter->h / 2;
 
-    bool leftKeyDown = false;
-    bool rightKeyDown = false;
-    bool upKeyDown = false;
-    bool downKeyDown = false;
+    int moveDirectionX = 0;
+    int moveSpeed = 2;
+
+    // Keyboard input
+    const Uint8 *state = SDL_GetKeyboardState(NULL);
+    const Uint8 *prevState = state;
 
     // Game loop
     while (running)
     {
-        const Uint8 *state = SDL_GetKeyboardState(NULL);
+        // Get current keyboard state
+        state = SDL_GetKeyboardState(NULL);
 
         SDL_Event event;
 
@@ -72,61 +75,24 @@ int main(int argc, char **args)
                 close();
                 break;
             }
-            // User presses a key
-            else if (event.type == SDL_KEYDOWN)
-            {
-                // Select surfaces based on key press
-                switch (event.key.keysym.sym)
-                {
-                case SDLK_UP:
-                    upKeyDown = true;
-                    break;
-
-                case SDLK_DOWN:
-                    downKeyDown = true;
-                    break;
-
-                case SDLK_LEFT:
-                    leftKeyDown = true;
-                    break;
-
-                case SDLK_RIGHT:
-                    rightKeyDown = true;
-                    break;
-
-                default:
-                    break;
-                }
-            }
-            else
-            {
-                rightKeyDown = false;
-                leftKeyDown = false;
-                downKeyDown = false;
-                upKeyDown = false;
-                break;
-            }
         }
 
-        if (leftKeyDown == true)
+        // Get X direction movement
+        if (state[SDL_SCANCODE_RIGHT])
         {
-            rect->x -= 1;
+            moveDirectionX = 1;
         }
-
-        if (rightKeyDown == true)
+        else if (state[SDL_SCANCODE_LEFT])
         {
-            rect->x += 1;
+            moveDirectionX = -1;
+        }
+        else
+        {
+            moveDirectionX = 0;
         }
 
-        /*
-        if (upKeyDown == true) {
-            rect->y -= 1;
-        }
-
-        if (downKeyDown == true) {
-            rect->y += 1;
-        }
-        */
+        // Apply X direction movement
+        rect->x += moveSpeed * moveDirectionX;
 
         // Clear the screen to black
         SDL_FillRect(gScreenSurface, NULL, SDL_MapRGB(gScreenSurface->format, 0x00, 0x00, 0x00));
@@ -147,6 +113,8 @@ int main(int argc, char **args)
         // Update the screen with the drawn render data
         SDL_RenderPresent(gRenderer);
         */
+
+        prevState = state;
     }
 
     return 0;
