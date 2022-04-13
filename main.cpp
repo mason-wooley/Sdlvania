@@ -1,5 +1,8 @@
+#include <Player.h>
 #include <SDL2/SDL.h>
 #include <stdio.h>
+
+#include <vector>
 
 #define SCREEN_WIDTH 1280
 #define SCREEN_HEIGHT 720
@@ -22,7 +25,7 @@ SDL_Surface *gScreenSurface = NULL;
 // The renderer to draw to
 // SDL_Renderer* gRenderer = NULL;
 
-// The image to load to the scren
+// The image to load to the screen
 SDL_Surface *gCharacter = NULL;
 
 int main(int argc, char **args) {
